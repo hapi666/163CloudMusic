@@ -35,10 +35,10 @@
           "云音乐ACG音乐榜",   
           "云音乐嘻哈榜",   
        ``` 
-      使用方法：  
+      **使用方法**：  
       
       ```go
-        cd 163CloudMusic
+        cd ./163CloudMusic
         
         go run main -l 网易云飙升榜   
       ```
