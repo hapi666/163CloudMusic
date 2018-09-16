@@ -5,10 +5,12 @@ import (
 	"flag"
 )
 
-var bd string
+var (
+	bd    string
+	music = make(map[string]string)
+)
 
-func main() {
-	music := make(map[string]string)
+func init() {
 	music["云音乐新歌榜"] = "3779629"
 	music["云音乐热歌榜"] = "3778678"
 	music["网易原创歌曲榜"] = "2884035"
@@ -33,8 +35,10 @@ func main() {
 	music["Beatport全球电子舞曲榜"] = "3812895"
 	music["云音乐ACG音乐榜"] = "71385702"
 	music["云音乐嘻哈榜"] = "991319590"
-
 	flag.StringVar(&bd, "l", "云音乐新歌榜", "What list do you want to get on netease cloud?")
+}
+
+func main() {
 	flag.Parse()
 	crawl.Crawl(music[bd])
 }
