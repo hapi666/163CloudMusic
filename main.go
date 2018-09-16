@@ -1,8 +1,9 @@
 package main
 
 import (
-	"code/practices/WYmusic/crawl"
 	"flag"
+
+	"github.com/hapi666/163CloudMusic/crawl"
 )
 
 var (

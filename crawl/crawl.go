@@ -1,13 +1,14 @@
 package crawl
 
 import (
-	"code/practices/WYmusic/util"
 	"fmt"
 	"io/ioutil"
 	"log"
 	"net/http"
 	"net/url"
 	"strings"
+
+	"github.com/hapi666/163CloudMusic/util"
 
 	"github.com/tidwall/gjson"
 )
