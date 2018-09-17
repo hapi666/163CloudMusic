@@ -40,5 +40,5 @@
       ```go
         cd ./163CloudMusic
         
-        go run main -l 上面任意一个榜单名称
+        go run main.go -l 上面任意一个榜单名称
       ```
