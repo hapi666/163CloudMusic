@@ -2,51 +2,91 @@ package crawl
 
 import (
 	"fmt"
-	"io/ioutil"
 	"log"
 	"net/http"
-	"net/url"
-	"strings"
-
-	"github.com/hapi666/163CloudMusic/util"
 
 	"github.com/tidwall/gjson"
 )
 
-// Crawl crawl 163.music.com to get songs,etc.
-func Crawl(id string) {
-	params := "{\"id\":\"" + id + "\", \"n\":\"" + "1000" + "\", \"offset\":\"" + "0" + "\", \"limit\":\"" + "1000" + "\", \"total\": \"true\"}"
-	p, encSecKey, err := util.EncParams(params)
-	form := url.Values{}
-	form.Set("params", p)
-	form.Set("encSecKey", encSecKey)
-	b := strings.NewReader(form.Encode())
-	req, err := http.NewRequest("POST", "http://music.163.com/weapi/v3/playlist/detail", b)
+// TopList crawl 163.music.com to get top-list.
+func TopList(topListName string) {
+	music := make(map[string]string)
+	music["云音乐新歌榜"] = "3779629"
+	music["云音乐热歌榜"] = "3778678"
+	music["网易原创歌曲榜"] = "2884035"
+	music["云音乐飙升榜"] = "19723756"
+	music["云音乐电音榜"] = "10520166"
+	music["UK排行榜周榜"] = "180106"
+	music["美国Billboard周榜"] = "60198"
+	music["KTV嗨榜"] = "21845217"
+	music["iTunes榜"] = "11641012"
+	music["Hit FM Top榜"] = "120001"
+	music["日本Oricon周榜"] = "60131"
+	music["韩国Melon排行榜周榜"] = "3733003"
+	music["韩国Mnet排行榜周榜"] = "60255"
+	music["韩国Melon原声周榜"] = "46772709"
+	music["中国TOP排行榜(港台榜)"] = "112504"
+	music["中国TOP排行榜(内地榜)"] = "64016"
+	music["香港电台中文歌曲龙虎榜"] = "10169002"
+	music["华语金曲榜"] = "4395559"
+	music["中国嘻哈榜"] = "1899724"
+	music["法国 NRJ EuroHot 30周榜"] = "27135204"
+	music["台湾Hito排行榜"] = "112463"
+	music["Beatport全球电子舞曲榜"] = "3812895"
+	music["云音乐ACG音乐榜"] = "71385702"
+	music["云音乐嘻哈榜"] = "991319590"
+	params := newParams("id", music[topListName], "1000")
+	log.Println(params)
+	b, err := encodePayload(params)
 	if err != nil {
-		log.Println("Failed to new a request")
+		log.Printf("Failed to ungzip the payload:%v", err)
 	}
-	req.Header.Set("Accept", "*/*")
-	req.Header.Set("Accept-Encoding", "gzip,deflate,sdch")
-	req.Header.Set("Accept-Language", "zh-CN,zh;q=0.8,gl;q=0.6,zh-TW;q=0.4")
-	req.Header.Set("Connection", "keep-alive")
-	req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
-	req.Header.Set("Host", "music.163.com")
-	req.Header.Set("Referer", "http://music.163.com")
-	req.Header.Set("User-Agent", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3071.115 Safari/537.36")
-	c := http.DefaultClient
-	resp, err := c.Do(req)
+	req, _ := http.NewRequest("POST", "http://music.163.com/weapi/v3/playlist/detail", b)
+	str, err := post(req)
 	if err != nil {
-		log.Fatalf("Failed to do the request: %v", err)
-	}
-	body, err := ioutil.ReadAll(resp.Body)
-	defer resp.Body.Close()
-	if err != nil {
-		log.Println("Failed to read the response body")
-	}
-	str, err := util.GzipDecode(body)
-	if err != nil {
-		log.Println("Failed to decode the body.")
+		log.Println(err)
 	}
 	result := gjson.Get(string(str), "playlist.tracks.#.name")
-	fmt.Println(result.String())
+	log.Println(result.String())
+}
+
+// SearchSongID get the corresponding song id by songName.
+func SearchSongID(songName string) (string, error) {
+	params := newParams("s", songName, "20", ",\"type\":\"1\"")
+	log.Println(params)
+	b, err := encodePayload(params)
+	if err != nil {
+		return "", err
+	}
+	req, _ := http.NewRequest("POST", "http://music.163.com/weapi/search/get", b)
+	str, err := post(req)
+	if err != nil {
+		return "", err
+	}
+	// name := gjson.Get(string(str), "result.songs.#.name")
+	id := gjson.Get(string(str), "result.songs.#.id")
+	if !id.Exists() {
+		return "", fmt.Errorf("Don't have the song:%v", songName)
+	}
+	log.Println(id.Array()[0].String())
+	return id.Array()[0].String(), nil
+}
+
+// Comment get a hot comment of the song by the song id
+func Comment(rid string) {
+	log.Println(rid)
+	params := newParams("rid", rid, "30")
+	fmt.Println(params)
+	b, err := encodePayload(params)
+	if err != nil {
+		log.Printf("Failed to encode the payload:%v", err)
+	}
+	req, _ := http.NewRequest("POST", "http://music.163.com/weapi/v1/resource/comments/R_SO_4_"+rid, b)
+	str, err := post(req)
+	if err != nil {
+		log.Printf("Faild to send the POST method:%v", err)
+	}
+	hotComment := gjson.Get(string(str), "hotComments.#.content")
+	log.Println(len(hotComment.Array()))
+	log.Println(hotComment.String())
 }
