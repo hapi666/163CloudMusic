@@ -16,7 +16,7 @@ var (
 func init() {
 	flag.StringVar(&topListName, "l", "云音乐新歌榜", "What list do you want to get on netease cloud?")
 	// flag.StringVar(&params["id"], "id", " ", "topList's id.")
-	flag.StringVar(&song, "Search Key Word", "寒鸦少年", "the song that you want to search.")
+	flag.StringVar(&song, "k", "寒鸦少年", "the song that you want to search.")
 }
 
 func main() {
