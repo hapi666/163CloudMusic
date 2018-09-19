@@ -35,10 +35,19 @@
           "云音乐ACG音乐榜",   
           "云音乐嘻哈榜",   
        ``` 
-      **使用方法**：  
+ * 完成对歌曲热评的爬取 in `2018.9.19`      
+ **使用方法**：  
       
-      ```go
-        cd ./163CloudMusic
+    ```go
+      $ mkdir Project
+      
+      $ git clone https://github.com/hapi666/163CloudMusic.git
+      
+      $ cd 163CloudMusic
         
-        go run main.go -l 上面任意一个榜单名称
-      ```
+      $ go run main.go -l 上面任意一个榜单名称 -k 任意一个歌曲名称
+    ```
+ **示例**
+    ```
+      
+    ```
