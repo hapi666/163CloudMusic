@@ -71,8 +71,8 @@ func SongID(songName string) (string, error) {
 	return id.Array()[0].String(), nil
 }
 
-// Comment get a hot comment of the song by the song id
-func Comment(rid string) {
+// HotComment get a hot comment of the song by the song id
+func HotComment(rid string) {
 	log.Println(rid)
 	params := newParams("rid", rid, "30")
 	fmt.Println(params)
