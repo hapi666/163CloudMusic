@@ -51,7 +51,7 @@ func TopList(topListName string) {
 }
 
 // SearchSongID get the corresponding song id by songName.
-func SearchSongID(songName string) (string, error) {
+func SongID(songName string) (string, error) {
 	params := newParams("s", songName, "20", ",\"type\":\"1\"")
 	log.Println(params)
 	b, err := encodePayload(params)

@@ -10,21 +10,19 @@ import (
 var (
 	topListName string
 	song        string
-	music       = make(map[string]string)
 )
 
 func init() {
-	flag.StringVar(&topListName, "l", "云音乐新歌榜", "What list do you want to get on netease cloud?")
-	// flag.StringVar(&params["id"], "id", " ", "topList's id.")
-	flag.StringVar(&song, "k", "寒鸦少年", "the song that you want to search.")
+	flag.StringVar(&topListName, "l", "云音乐新歌榜", "The list that you want to get on netease cloud.")
+	flag.StringVar(&song, "k", "年少有为", "The song that you want to search.")
 }
 
 func main() {
 	flag.Parse()
 	crawl.TopList(topListName)
-	songID, err := crawl.SearchSongID(song)
+	songID, err := crawl.SongID(song)
 	if err != nil {
-		log.Printf("Failed to Search the song's id:%v", err)
+		log.Printf("Failed to get the song's id:%v", err)
 	}
 	crawl.Comment(songID)
 }
