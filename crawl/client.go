@@ -11,26 +11,6 @@ import (
 	"github.com/hapi666/163CloudMusic/util"
 )
 
-// type Client struct {
-// 	cli    http.Client
-// 	params map[string]string
-// }
-
-// func NewClient(client http.Client, para map[string]string) *Client {
-// 	return &Client{
-// 		cli:    client,
-// 		params: para,
-// 	}
-// }
-
-// func NewIdParams(mapParams map[string]string) string {
-// 	return "{\"id\":\"" + mapParams["id"] + "\", \"n\":\"" + mapParams["n"] + "\", \"offset\":\"" + mapParams["offset"] + "\", \"limit\":\"" + mapParams["limit"] + "\", \"total\": \"true\"}"
-// }
-
-// func NewSearchParams(mapParams map[string]string) string {
-// 	return "{\"s\":\"" + mapParams["s"] + "\", \"n\":\"" + mapParams["n"] + "\", \"offset\":\"" + mapParams["offset"] + "\", \"limit\":\"" + mapParams["limit"] + "\", \"total\": \"true\"}"
-// }
-
 func post(req *http.Request) ([]byte, error) {
 	req.Header.Set("Accept", "*/*")
 	req.Header.Set("Accept-Encoding", "gzip,deflate,sdch")

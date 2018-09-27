@@ -50,7 +50,7 @@ func TopList(topListName string) {
 	log.Println(result.String())
 }
 
-// SearchSongID get the corresponding song id by songName.
+// SongID get the corresponding song id by songName.
 func SongID(songName string) (string, error) {
 	params := newParams("s", songName, "20", ",\"type\":\"1\"")
 	log.Println(params)
@@ -63,7 +63,6 @@ func SongID(songName string) (string, error) {
 	if err != nil {
 		return "", err
 	}
-	// name := gjson.Get(string(str), "result.songs.#.name")
 	id := gjson.Get(string(str), "result.songs.#.id")
 	if !id.Exists() {
 		return "", fmt.Errorf("Don't have the song:%v", songName)
