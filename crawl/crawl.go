@@ -35,6 +35,7 @@ func TopList(topListName string) {
 	music["Beatport全球电子舞曲榜"] = "3812895"
 	music["云音乐ACG音乐榜"] = "71385702"
 	music["云音乐嘻哈榜"] = "991319590"
+
 	params := newParams("id", music[topListName], "1000")
 	log.Println(params)
 	b, err := encodePayload(params)
