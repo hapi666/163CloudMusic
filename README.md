@@ -41,6 +41,8 @@
     ```go
       $ mkdir Project
       
+      $ cd Project
+      
       $ git clone https://github.com/hapi666/163CloudMusic.git
       
       $ cd 163CloudMusic
