@@ -24,5 +24,5 @@ func main() {
 	if err != nil {
 		log.Printf("Failed to get the song's id:%v", err)
 	}
-	crawl.Comment(songID)
+	crawl.HotComment(songID)
 }
