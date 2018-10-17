@@ -198,7 +198,4 @@ func main() {
 	// 	log.Printf("Failed to get the song's id:%v", err)
 	// }
 	// crawl.HotComment(songID)
-=======
-	crawl.HotComment(songID)
->>>>>>> 32719154c8c10e4195bea07287fa125a8111b0ec
 }
