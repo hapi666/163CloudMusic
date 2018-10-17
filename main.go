@@ -11,11 +11,6 @@ import (
 )
 
 var (
-	// topListName string
-	// song        string
-	// feature = []rune{
-	// 	's',
-	// }
 	eventQueue = make(chan termbox.Event)
 	//moveX int
 	moveY                   int
@@ -27,32 +22,6 @@ var (
 	neteaseOriginalSongList = []rune{'3', '.', '网', '易', '原', '创', '歌', '曲', '榜', '.'}
 	cloudMusicSoared        = []rune{'4', '.', '云', '音', '乐', '飙', '升', '榜', '.'}
 )
-
-// func init() {
-// 	flag.StringVar(&topListName, "l", "云音乐新歌榜", "The list that you want to get on netease cloud.")
-// 	flag.StringVar(&song, "k", "年少有为", "The song that you want to search.")
-// }
-
-// func initTermBox() {
-// 	termbox.SetCell(30, 5, '网', termbox.ColorDefault, termbox.ColorBlue)
-// 	termbox.SetCell(32, 5, '易', termbox.ColorDefault, termbox.ColorBlue)
-// 	termbox.SetCell(34, 5, '云', termbox.ColorDefault, termbox.ColorBlue)
-// 	termbox.SetCell(36, 5, '音', termbox.ColorDefault, termbox.ColorBlue)
-// 	termbox.SetCell(38, 5, '乐', termbox.ColorDefault, termbox.ColorBlue)
-// 	termbox.SetCell(40, 5, '欢', termbox.ColorDefault, termbox.ColorBlue)
-// 	termbox.SetCell(42, 5, '迎', termbox.ColorDefault, termbox.ColorBlue)
-// 	termbox.SetCell(44, 5, '您', termbox.ColorDefault, termbox.ColorBlue)
-
-// 	termbox.SetCell(30, 8, '>', termbox.ColorDefault, termbox.ColorBlue)
-
-// 	termbox.SetCell(32, 8, '1', termbox.ColorDefault, termbox.ColorBlue)
-// 	termbox.SetCell(34, 8, '.', termbox.ColorDefault, termbox.ColorBlue)
-// 	termbox.SetCell(36, 8, '获', termbox.ColorDefault, termbox.ColorBlue)
-// 	termbox.SetCell(38, 8, '取', termbox.ColorDefault, termbox.ColorBlue)
-// 	termbox.SetCell(40, 8, '榜', termbox.ColorDefault, termbox.ColorBlue)
-// 	termbox.SetCell(42, 8, '单', termbox.ColorDefault, termbox.ColorBlue)
-// 	termbox.SetCell(44, 8, '.', termbox.ColorDefault, termbox.ColorBlue)
-// }
 
 func initDraw() {
 	termbox.Clear(termbox.ColorDefault, termbox.ColorDefault)
@@ -190,11 +159,4 @@ func main() {
 		}
 	}()
 	flush(8, 11, initDraw)
-	// flag.Parse()
-	// crawl.TopList(topListName)
-	// songID, err := crawl.SongID(song)
-	// if err != nil {
-	// 	log.Printf("Failed to get the song's id:%v", err)
-	// }
-	// crawl.HotComment(songID)
 }
