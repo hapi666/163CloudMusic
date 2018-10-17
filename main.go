@@ -182,7 +182,6 @@ func main() {
 	if err != nil {
 		fmt.Println(err)
 	}
-<<<<<<< HEAD
 	defer termbox.Close()
 
 	go func() {
