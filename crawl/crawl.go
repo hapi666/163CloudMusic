@@ -9,7 +9,7 @@ import (
 )
 
 // TopList crawl 163.music.com to get top-list.
-func TopList(topListID string) {
+func TopList(topListID string) []gjson.Result {
 	params := newParams("id", topListID, "1000")
 	log.Println(params)
 	b, err := encodePayload(params)
@@ -22,7 +22,8 @@ func TopList(topListID string) {
 		log.Println(err)
 	}
 	result := gjson.Get(string(str), "playlist.tracks.#.name")
-	log.Println(result.String())
+	return result.Array()
+	// log.Println(result.String())
 }
 
 // SongID get the corresponding song id by songName.

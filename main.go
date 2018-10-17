@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"reflect"
 
+	"github.com/tidwall/gjson"
+
 	"github.com/nsf/termbox-go"
 )
 
@@ -111,6 +113,21 @@ func enterSongHotComment() {
 	//termbox.KeyInsert
 }
 
+func setListCell(results []gjson.Result) {
+	termbox.Clear(termbox.ColorDefault, termbox.ColorDefault)
+	i := 30
+	j := 8
+	for index, result := range results {
+		termbox.SetCell(30, j, rune(index+1), termbox.ColorDefault, termbox.ColorBlack)
+		for _, v := range result.Str {
+			termbox.SetCell(i, j, v, termbox.ColorDefault, termbox.ColorBlack)
+			i++
+		}
+		j++
+	}
+	termbox.Flush()
+}
+
 func flush(minY, maxY int, f func()) {
 	//moveX = 28
 	moveY = 8
@@ -134,7 +151,7 @@ loop:
 						flush(8, 17, enterSongList)
 					case reflect.DeepEqual(f, enterSongList):
 						//call a SetCell function.
-						crawl.TopList("云音乐新歌榜")
+						setListCell(crawl.TopList("云音乐新歌榜"))
 					}
 
 				case 11:
