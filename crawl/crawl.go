@@ -11,7 +11,6 @@ import (
 // TopList crawl 163.music.com to get top-list.
 func TopList(topListID string) []gjson.Result {
 	params := newParams("id", topListID, "1000")
-	log.Println(params)
 	b, err := encodePayload(params)
 	if err != nil {
 		log.Printf("Failed to ungzip the payload:%v", err)
@@ -29,7 +28,6 @@ func TopList(topListID string) []gjson.Result {
 // SongID get the corresponding song id by songName.
 func SongID(songName string) (string, error) {
 	params := newParams("s", songName, "20", ",\"type\":\"1\"")
-	log.Println(params)
 	b, err := encodePayload(params)
 	if err != nil {
 		return "", err
@@ -51,7 +49,6 @@ func SongID(songName string) (string, error) {
 func HotComment(rid string) {
 	log.Println(rid)
 	params := newParams("rid", rid, "30")
-	fmt.Println(params)
 	b, err := encodePayload(params)
 	if err != nil {
 		log.Printf("Failed to encode the payload:%v", err)
