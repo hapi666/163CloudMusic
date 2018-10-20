@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"reflect"
 
 	"github.com/hapi666/163CloudMusic/crawl"
 
@@ -12,36 +11,40 @@ import (
 )
 
 var (
+	w          int
+	h          int
 	eventQueue = make(chan termbox.Event)
 	//moveX int
 	moveY                   int
-	oneLineWord             = []rune{'网', '易', '云', '音', '乐', '欢', '迎', '您'}
-	twoLineWord             = []rune{'1', '.', '获', '取', '榜', '单', '.'}
-	threeLineWord           = []rune{'2', '.', '获', '取', '歌', '曲', '热', '评', '.'}
+	results                 []gjson.Result
+	boxTitle                = []rune{'网', '易', '云', '音', '乐', '欢', '迎', '您'}
+	getSongLists            = []rune{'1', '.', '获', '取', '榜', '单', '.'}
+	getSongHotComment       = []rune{'2', '.', '获', '取', '歌', '曲', '热', '评', '.'}
 	newSongList             = []rune{'1', '.', '云', '音', '乐', '新', '歌', '榜', '.'}
 	hotSongList             = []rune{'2', '.', '云', '音', '乐', '热', '歌', '榜', '.'}
 	neteaseOriginalSongList = []rune{'3', '.', '网', '易', '原', '创', '歌', '曲', '榜', '.'}
 	cloudMusicSoared        = []rune{'4', '.', '云', '音', '乐', '飙', '升', '榜', '.'}
+	newListWords            = []rune{'云', '音', '乐', '新', '歌', '榜'}
 )
 
 func initDraw() {
 	termbox.Clear(termbox.ColorDefault, termbox.ColorDefault)
 	j := 0
-	for i := 30; i < 30+2*len(oneLineWord); i += 2 {
-		termbox.SetCell(i, 5, oneLineWord[j], termbox.ColorDefault, termbox.ColorBlue)
+	for i := 30; i < 30+2*len(boxTitle); i += 2 {
+		termbox.SetCell(i, 5, boxTitle[j], termbox.ColorDefault, termbox.ColorBlue)
 		j++
 	}
 
 	termbox.SetCell(28, moveY, '>', termbox.ColorDefault, termbox.ColorRed)
 
 	k := 0
-	for i := 30; i < 30+2*len(twoLineWord); i += 2 {
-		termbox.SetCell(i, 8, twoLineWord[k], termbox.ColorDefault, termbox.ColorBlack)
+	for i := 30; i < 30+2*len(getSongLists); i += 2 {
+		termbox.SetCell(i, 8, getSongLists[k], termbox.ColorDefault, termbox.ColorBlack)
 		k++
 	}
 	l := 0
-	for i := 30; i < 30+2*len(threeLineWord); i += 2 {
-		termbox.SetCell(i, 11, threeLineWord[l], termbox.ColorDefault, termbox.ColorBlack)
+	for i := 30; i < 30+2*len(getSongHotComment); i += 2 {
+		termbox.SetCell(i, 11, getSongHotComment[l], termbox.ColorDefault, termbox.ColorBlack)
 		l++
 	}
 
@@ -52,7 +55,7 @@ func enterSongList() {
 	termbox.Clear(termbox.ColorDefault, termbox.ColorDefault)
 	j := 0
 	for i := 30; i < 46; i += 2 {
-		termbox.SetCell(i, 5, oneLineWord[j], termbox.ColorDefault, termbox.ColorBlue)
+		termbox.SetCell(i, 5, boxTitle[j], termbox.ColorDefault, termbox.ColorBlue)
 		j++
 	}
 	termbox.SetCell(28, moveY, '>', termbox.ColorDefault, termbox.ColorRed)
@@ -83,22 +86,29 @@ func enterSongHotComment() {
 	//termbox.KeyInsert
 }
 
-func setListCell(results []gjson.Result) {
+func setListCell() {
 	termbox.Clear(termbox.ColorDefault, termbox.ColorDefault)
-	i := 30
-	j := 8
-	for index, result := range results {
-		termbox.SetCell(30, j, rune(index+1), termbox.ColorDefault, termbox.ColorBlack)
-		for _, v := range result.Str {
+	j := 1
+	// k := 0
+	// for i := 30; i < 42; i += 2 {
+	// 	termbox.SetCell(i, 0, newListWords[k], termbox.ColorDefault, termbox.ColorBlue)
+	// 	k++
+	// }
+	for _, result := range results {
+		i := 32
+		termbox.SetCell(30, j, '*', termbox.ColorDefault, termbox.ColorBlack)
+		s := []rune(result.Str)
+		//termbox-go 只能显示终端屏尺寸的大小，超过此时显示的坐标时就不会再设置cell坐标
+		for _, v := range s {
 			termbox.SetCell(i, j, v, termbox.ColorDefault, termbox.ColorBlack)
-			i++
+			i += 2
 		}
 		j++
 	}
 	termbox.Flush()
 }
 
-func flush(minY, maxY int, f func()) {
+func flush(minY, maxY int, f func(), pageFlag int) {
 	//moveX = 28
 	moveY = 8
 	f()
@@ -112,25 +122,35 @@ loop:
 			case termbox.KeyArrowDown:
 				moveY += 3
 			case termbox.KeyEnter:
-				//....
 				switch moveY {
 				case 8:
-					// b := true
-					switch true {
-					case reflect.DeepEqual(f, initDraw):
-						flush(8, 17, enterSongList)
-					case reflect.DeepEqual(f, enterSongList):
-						//call a SetCell function.
-						setListCell(crawl.TopList("云音乐新歌榜"))
+					if pageFlag == 1 {
+						flush(8, 17, enterSongList, 2)
 					}
-
+					if pageFlag == 2 { //在第二个页面点击第一个的enter键
+						results = crawl.TopList("3779629")
+						flush(8, 8+len(results), setListCell, 4)
+					}
+					if pageFlag == 3 { //在第三个页面点击第一个的enter键
+						//Call HotComment function.
+					}
 				case 11:
-					//flush(8,,)
-					switch true {
-					case reflect.DeepEqual(f, initDraw):
-						flush(8, 11, enterSongHotComment)
-					case reflect.DeepEqual(f, enterSongHotComment):
-						//call a SetCell function.
+					if pageFlag == 1 { //在第一个页面点击第二个的enter键
+						flush(8, 11, enterSongHotComment, 3)
+					}
+					if pageFlag == 2 { //在第二个页面点击第二个的enter键
+						results = crawl.TopList("3778678")
+						flush(8, 8+len(results), setListCell, 4)
+					}
+				case 14:
+					if pageFlag == 2 {
+						results = crawl.TopList("2884035")
+						flush(8, 8+len(results), setListCell, 4)
+					}
+				case 17:
+					if pageFlag == 2 {
+						results = crawl.TopList("19723756")
+						flush(8, 8+len(results), setListCell, 4)
 					}
 				}
 				break loop
@@ -153,11 +173,12 @@ func main() {
 		fmt.Println(err)
 	}
 	defer termbox.Close()
-
 	go func() {
 		for {
 			eventQueue <- termbox.PollEvent()
 		}
 	}()
-	flush(8, 11, initDraw)
+	w, h = termbox.Size()
+	pageFlag := 1
+	flush(8, 11, initDraw, pageFlag)
 }
