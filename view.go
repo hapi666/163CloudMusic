@@ -2,17 +2,17 @@ package main
 
 import (
 	"github.com/hapi666/163CloudMusic/crawl"
+	"github.com/tidwall/gjson"
 
 	termbox "github.com/nsf/termbox-go"
-	"github.com/tidwall/gjson"
 )
 
 var (
-	w          int
-	h          int
-	eventQueue = make(chan termbox.Event)
+	w int
+	h int
 	//moveX int
 	moveY                   int
+	eventQueue              = make(chan termbox.Event)
 	results                 []gjson.Result
 	boxTitle                = []rune{'网', '易', '云', '音', '乐', '欢', '迎', '您'}
 	getSongLists            = []rune{'1', '.', '获', '取', '榜', '单', '.'}
