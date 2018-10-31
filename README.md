@@ -5,7 +5,9 @@
 
 * 使用小视频
 
-  ![](https://github.com/hapi666/163CloudMusic/blob/master/QQ20181031150931HD.gif)
+  <video width="400" controls>
+    <source src="https://github.com/hapi666/163CloudMusic/blob/master/QQ20181031150931HD.gif" type="video/mp4">
+  </video>
 
 ---
 
