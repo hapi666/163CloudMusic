@@ -5,7 +5,7 @@
 
 * 使用小视频
 
-  ![](https://github.com/hapi666/163CloudMusic/blob/master/QQ20181031150931HD.gif)
+  ![very good|512x397, 20%](https://github.com/hapi666/163CloudMusic/blob/master/QQ20181031150931HD.gif)
 
 ---
 
