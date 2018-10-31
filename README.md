@@ -5,7 +5,7 @@
 
 * 使用小视频
 
-  ![](https://github.com/hapi666/163CloudMusic/blob/master/QQ20181031-150931-HD.gif)
+  ![](https://github.com/hapi666/163CloudMusic/blob/master/QQ20181031150931HD.gif)
 
 ---
 
