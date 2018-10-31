@@ -5,7 +5,7 @@
 
 * 使用小视频
 
-  ![very good|412x297](https://github.com/hapi666/163CloudMusic/blob/master/QQ20181031150931HD.gif)
+  ![very good|412x297](https://github.com/hapi666/163CloudMusic/blob/master/ezgif.com-resize.gif)
 
 ---
 
